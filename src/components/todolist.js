@@ -5,8 +5,6 @@ import { getId, getIndex } from "../utils/getId.js";
 import "../style.css";
 import "../images/bin.png";
 
-document.querySelector("form").addEventListener("submit", handleFormSubmit);
-
 // grabs the todos from local storage, and if there are no todos it will return an empty array.
 const todos = getSavedItems();
 
@@ -137,6 +135,8 @@ function handleFormSubmit(e) {
   appendToDoItems(todos);
   e.target.elements.toDo.value = "";
 }
+
+document.querySelector("form").addEventListener("submit", handleFormSubmit);
 
 // hot module replacement (not required)
 import.meta.webpackHot.accept();
