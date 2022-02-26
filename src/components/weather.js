@@ -23,7 +23,7 @@ function displayWeather(data) {
   // by initially setting the "weather-section" as hidden we don't have to
   // keep overriding it; instead, we will only display the results if successful
   // displays the weather section only when we have a succesful response from the API
-  displayWeatherSection.style.display = "block";
+  displayWeatherSection.style.display = "flex";
 }
 
 // await the response from the API
