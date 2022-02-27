@@ -30,7 +30,6 @@ function displayItems(item) {
   editButton.textContent = "Edit";
 
   // add class names to elements
-
   container.classList.add("todo-item-container");
   deleteButton.classList.add("delete-btn");
   editButton.classList.add("edit-btn");
@@ -78,7 +77,6 @@ function displayItems(item) {
   });
 
   // listens for the edit button being clicked and removes the readonly attribute and updates the textContent of the button.
-
   editButton.addEventListener("click", () => {
     input.removeAttribute("readonly", "readonly");
     editButton.textContent = "Save";

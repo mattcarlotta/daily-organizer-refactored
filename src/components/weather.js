@@ -1,3 +1,5 @@
+const weatherSectionContainer = document.querySelector(".row-2");
+
 // display weather data to the DOM
 function displayWeather(data) {
   const displayWeatherSection = document.querySelector(".weather-section");
@@ -49,22 +51,22 @@ async function getWeatherData(position) {
   } catch (err) {
     // how is a user going to know if this fails?
     // how can we communicate to the UI that it fails?
-    const weatherSection = document.querySelector(".row-2");
+
+    // creates an API error message container and prepends it to ".row-2" DOM node
     const container = document.createElement("div");
     container.classList.add("error-loading-weather");
 
     const errorMessage = document.createElement("h1");
-    errorMessage.innerText = `Unable to fetch weather...`;
+    errorMessage.innerText = "Unable to fetch weather...";
     errorMessage.style = "font-size: 30px";
+
     const errorMessageFromAPI = document.createElement("h2");
     errorMessageFromAPI.style = "font-size: 20px";
     errorMessageFromAPI.innerText = err.toString();
 
     container.appendChild(errorMessage);
     container.appendChild(errorMessageFromAPI);
-    weatherSection.prepend(container);
-
-    console.error("ERROR", err);
+    weatherSectionContainer.prepend(container);
   }
 }
 
@@ -78,7 +80,6 @@ if (navigator.geolocation) {
 
 // hot module replacement (not required)
 import.meta.webpackHot.dispose(() => {
-  const weatherSection = document.querySelector(".row-2");
   const errorContainer = document.querySelector(".error-loading-weather");
-  if (errorContainer) weatherSection.removeChild(errorContainer);
+  if (errorContainer) weatherSectionContainer.removeChild(errorContainer);
 });
