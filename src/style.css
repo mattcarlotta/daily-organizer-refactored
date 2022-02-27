@@ -178,6 +178,21 @@ span.author {
   background-size: cover;
 }
 
+.error-loading-weather {
+  height: 298px;
+  background: red;
+  color: white;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  box-shadow: rgb(247 244 244 / 24%) 0px 3px 8px;
+  padding: 10px;
+}
+
 .water-tracker {
   background: lemonchiffon;
   color: black;

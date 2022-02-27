@@ -1,4 +1,6 @@
-document.querySelectorAll(".bottle").forEach((bottle) => {
+const bottleNodes = document.querySelectorAll(".bottle");
+
+bottleNodes.forEach((bottle) => {
   // toggle the class 'empty' when the bottle is clicked
   bottle.addEventListener("click", () => {
     const bottleCount = document.querySelector(".bottle-count");
@@ -18,12 +20,9 @@ document.querySelectorAll(".bottle").forEach((bottle) => {
 });
 
 // hot module replacement (not required)
-import.meta.webpackHot.accept();
 import.meta.webpackHot.dispose(() => {
-  // iterate over the bottles...
-  document.querySelectorAll(".bottle").forEach((oldBottle) => {
-    // clone the old node and replace with the new node (to remove event listeners)
-    const newBottle = oldBottle.cloneNode(true);
-    oldBottle.parentNode.replaceChild(newBottle, oldBottle);
+  const { cleanup } = require("../utils/cleanup");
+  bottleNodes.forEach((bottle) => {
+    cleanup(bottle);
   });
 });

@@ -28,16 +28,19 @@ function displayWeather(data) {
 
 // await the response from the API
 // if the promise is succesful - await the JSON response, else throw an error
-async function getWeatherData(url) {
+async function getWeatherData(position) {
   try {
     // never expose API keys to source control
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": process.env.RAPIDAPIHOST,
-        "x-rapidapi-key": process.env.RAPIDAPIKEY,
-      },
-    });
+    const response = await fetch(
+      `https://weatherbit-v1-mashape.p.rapidapi.com/current?lon=${position.coords.longitude}&lat=${position.coords.latitude}`,
+      {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": process.env.RAPIDAPIHOST,
+          "x-rapidapi-key": process.env.RAPIDAPIKEY,
+        },
+      }
+    );
 
     if (!response.ok) throw new Error(response.statusText);
 
@@ -46,6 +49,21 @@ async function getWeatherData(url) {
   } catch (err) {
     // how is a user going to know if this fails?
     // how can we communicate to the UI that it fails?
+    const weatherSection = document.querySelector(".row-2");
+    const container = document.createElement("div");
+    container.classList.add("error-loading-weather");
+
+    const errorMessage = document.createElement("h1");
+    errorMessage.innerText = `Unable to fetch weather...`;
+    errorMessage.style = "font-size: 30px";
+    const errorMessageFromAPI = document.createElement("h2");
+    errorMessageFromAPI.style = "font-size: 20px";
+    errorMessageFromAPI.innerText = err.toString();
+
+    container.appendChild(errorMessage);
+    container.appendChild(errorMessageFromAPI);
+    weatherSection.prepend(container);
+
     console.error("ERROR", err);
   }
 }
@@ -54,11 +72,13 @@ async function getWeatherData(url) {
 // grabs the lat/lng to make a request to the weatherbit API
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition((position) => {
-    const url = `https://weatherbit-v1-mashape.p.rapidapi.com/current?lon=${position.coords.longitude}&lat=${position.coords.latitude}`;
-
-    getWeatherData(url);
+    getWeatherData(position);
   });
 }
 
 // hot module replacement (not required)
-import.meta.webpackHot.accept();
+import.meta.webpackHot.dispose(() => {
+  const weatherSection = document.querySelector(".row-2");
+  const errorContainer = document.querySelector(".error-loading-weather");
+  if (errorContainer) weatherSection.removeChild(errorContainer);
+});

@@ -116,7 +116,9 @@ function appendToDoItems(todosList) {
 // Initialize the todo list to show either the todos or an empty message
 appendToDoItems(todos);
 
-function handleFormSubmit(e) {
+const todoFormNode = document.getElementById("to-do-form");
+
+todoFormNode.addEventListener("submit", (e) => {
   const usersInput = e.target.elements.toDo.value.trim();
   e.preventDefault();
 
@@ -134,15 +136,10 @@ function handleFormSubmit(e) {
   saveItems(todos);
   appendToDoItems(todos);
   e.target.elements.toDo.value = "";
-}
-
-document.querySelector("form").addEventListener("submit", handleFormSubmit);
+});
 
 // hot module replacement (not required)
-import.meta.webpackHot.accept();
 import.meta.webpackHot.dispose(() => {
-  // remove listener from form when the module is updated...
-  document
-    .querySelector("form")
-    .removeEventListener("submit", handleFormSubmit);
+  const { cleanup } = require("../utils/cleanup");
+  cleanup(todoFormNode);
 });
